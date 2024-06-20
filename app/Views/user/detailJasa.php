@@ -40,7 +40,7 @@
                             <p class="card-text"><strong>Harga:</strong> Rp<?= number_format($paket['harga'], 0, ',', '.'); ?></p>
                             <div class="d-flex justify-content-between">
                                 <a href="<?= base_url('/pesanan/create?id_jasa=' . $jasa['id'] . '&id_paket=' . $paket['id'] . '&harga=' . $paket['harga']); ?>" class="btn btn-primary">Pesan Sekarang</a>
-                                <a href="https://wa.me/6289529994677?text=Halo%20Admin,%20saya%20tertarik%20dengan%20paket%20jasa%20<?= urlencode($paket['nama']); ?>%20dengan%20harga%20Rp<?= number_format($paket['harga'], 0, ',', '.'); ?>." class="btn btn-secondary" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="Chat dengan Penjual">Chat Penjual</a>
+                                <a href="https://wa.me/6289529994677?text=Halo%20Admin,%0A%0ASaya%20tertarik%20dengan%20jasa%20Anda%20dengan%20paket%20<?= urlencode($paket['jasa_nama']); ?>.%0A%0A- Nama Paket: <?= urlencode($paket['nama']); ?>%0A- Harga: Rp<?= number_format($paket['harga'], 0, ',', '.'); ?>.%0A%0AMohon%20informasinya%20lebih%20lanjut." class="btn btn-secondary" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="Chat dengan Penjual">Chat Penjual</a>
                             </div>
                         </div>
                     <?php endforeach; ?>

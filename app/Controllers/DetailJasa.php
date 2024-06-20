@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\JasaModel;
+use App\Models\PaketJasaModel;
 
 class Home extends BaseController
 {
@@ -25,16 +26,21 @@ class Home extends BaseController
     public function detail($slug)
     {
         $jasaModel = new JasaModel();
-        $jasa = $jasaModel->getJasa($slug);
-
+        $paketJasaModel = new PaketJasaModel();
+        
+        $jasa = $jasaModel->where('slug', $slug)->first();
+        
         if (!$jasa) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Jasa ' . $slug . ' tidak ditemukan.');
         }
+        
+        $paketJasa = $paketJasaModel->getPaketJasaWithJasa($jasa['id']);
 
         $data = [
-            'jasa' => $jasa
+            'jasa' => $jasa,
+            'paket_jasa' => $paketJasa
         ];
 
-        return view('user/detail', $data);
+        return view('user/detailJasa', $data);
     }
 }
