@@ -1,3 +1,4 @@
+// View user/home.php
 <?= $this->extend('layout/template.php'); ?>
 
 <?= $this->section('content'); ?>
@@ -23,12 +24,13 @@
                         <img src="<?= base_url('assets/images/produk-jasa/' . $j['gambar']); ?>" class="card-img-top" alt="<?= $j['nama']; ?>" style="height: 200px; object-fit: cover;">
                         <div class="card-body">
                             <h5 class="card-title"><?= $j['nama']; ?></h5>
-                            <p class="card-text">
-                                <span class="text-primary" style="font-size: 20px; margin-bottom: 15px">Rp<?= number_format($j['harga'], 0, ',', '.'); ?></span><br>
-                                <span class="badge bg-info text-dark"><?= $j['kategori']; ?></span>
-
-                                <span class="badge bg-success"><?= $j['status']; ?></span>
-                            </p>
+                            <?php if (!empty($j['paket'])) : ?>
+                                <p class="card-text">
+                                    <span class="text-primary" style="font-size: 20px; margin-bottom: 15px">Rp<?= number_format($j['paket'][0]['harga'], 0, ',', '.'); ?></span><br>
+                                    <span class="badge bg-info text-dark"><?= $j['kategori']; ?></span>
+                                    <span class="badge bg-success"><?= $j['status']; ?></span>
+                                </p>
+                            <?php endif; ?>
                             
                             <div class="row mt-2">
                                 <div class="col d-flex align-items-center">

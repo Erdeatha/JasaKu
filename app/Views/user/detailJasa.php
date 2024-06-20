@@ -39,8 +39,8 @@
                             <p class="card-text"><?= $paket['rincian']; ?></p>
                             <p class="card-text"><strong>Harga:</strong> Rp<?= number_format($paket['harga'], 0, ',', '.'); ?></p>
                             <div class="d-flex justify-content-between">
-                            <a href="<?= base_url('/pesanan/create?id_jasa=' . $jasa['id'] . '&id_paket=' . $paket['id'] . '&harga=' . $paket['harga']); ?>" class="btn btn-primary">Pesan Sekarang</a>
-                                <a href="#" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Chat dengan Penjual">Chat Penjual</a>
+                                <a href="<?= base_url('/pesanan/create?id_jasa=' . $jasa['id'] . '&id_paket=' . $paket['id'] . '&harga=' . $paket['harga']); ?>" class="btn btn-primary">Pesan Sekarang</a>
+                                <a href="https://wa.me/6289529994677?text=Halo%20Admin,%20saya%20tertarik%20dengan%20paket%20jasa%20<?= urlencode($paket['nama']); ?>%20dengan%20harga%20Rp<?= number_format($paket['harga'], 0, ',', '.'); ?>." class="btn btn-secondary" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="Chat dengan Penjual">Chat Penjual</a>
                             </div>
                         </div>
                     <?php endforeach; ?>

@@ -24,13 +24,18 @@ class JasaModel extends Model
     }
 
     public function getAllJasaWithPrice()
-    {
-        $builder = $this->db->table('jasa');
-        $builder->select('jasa.*, paket_jasa.harga');
-        $builder->join('paket_jasa', 'jasa.id = paket_jasa.id_jasa', 'left');
-        $query = $builder->get();
-        return $query->getResultArray();
+{
+    $builder = $this->db->table('jasa');
+    $builder->select('jasa.*');
+    $query = $builder->get();
+    $jasaList = $query->getResultArray();
+
+    foreach ($jasaList as &$jasa) {
+        $jasa['paket'] = $this->getPaketJasaById($jasa['id']);
     }
+
+    return $jasaList;
+}
 
     // Model JasaModel.php
     public function getPaketJasaById($idJasa)
