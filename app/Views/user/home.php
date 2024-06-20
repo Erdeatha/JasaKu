@@ -58,32 +58,41 @@
     </div>
 </div>
 
+<!-- JavaScript for filtering and searching -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const categoryButtons = document.querySelectorAll('.category-btn');
         const jasaItems = document.querySelectorAll('.jasa-item');
         const searchInput = document.getElementById('searchInput');
 
+        // Event listener for category buttons
         categoryButtons.forEach(button => {
             button.addEventListener('click', function () {
                 const category = button.getAttribute('data-category');
-                filterJasa(category);
+                const searchText = searchInput.value.trim().toLowerCase();
+                filterJasa(category, searchText);
             });
         });
 
+        // Event listener for search input
         searchInput.addEventListener('input', function () {
+            const activeCategoryButton = document.querySelector('.category-btn.active');
+            const category = activeCategoryButton ? activeCategoryButton.getAttribute('data-category') : 'semua';
             const searchText = searchInput.value.trim().toLowerCase();
-            filterJasa(null, searchText);
+            filterJasa(category, searchText);
         });
 
+        // Function to filter jasa items
         function filterJasa(category, searchText) {
             jasaItems.forEach(item => {
                 const itemCategory = item.getAttribute('data-category').toLowerCase();
                 const itemName = item.querySelector('.card-title').textContent.toLowerCase();
                 
-                const categoryMatch = category === null || category === 'semua' || category === itemCategory;
+                // Check if item matches category and search text
+                const categoryMatch = category === 'semua' || category === itemCategory;
                 const searchMatch = searchText === '' || itemName.includes(searchText);
 
+                // Show or hide item based on matches
                 if (categoryMatch && searchMatch) {
                     item.style.display = 'block';
                 } else {
