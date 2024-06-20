@@ -6,7 +6,7 @@
     <!-- Tombol Kategori -->
     <div class="row justify-content-center mb-4">
         <div class="col-auto">
-            <!-- Add unique IDs to each button for easier targeting -->
+            <!-- Tombol Kategori -->
             <button class="btn tombol category-btn" data-category="semua" style="border-color: black;">Semua</button>
             <button class="btn tombol category-btn" data-category="kesehatan" style="border-color: black;">Kesehatan</button>
             <button class="btn tombol category-btn" data-category="kebersihan" style="border-color: black;">Kebersihan</button>
@@ -16,10 +16,16 @@
         </div>
     </div>
 
+    <!-- Input untuk Pencarian -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-auto">
+            <input type="text" id="searchInput" class="form-control" placeholder="Cari jasa...">
+        </div>
+    </div>
+
     <div class="row" id="jasaContainer">
         <?php foreach ($jasa as $j) : ?>
             <div class="col-md-4 mb-4 jasa-item" data-category="<?= strtolower($j['kategori']); ?>">
-                <!-- Use data-category attribute to store the category information -->
                 <div class="card jasa-card h-100">
                     <a href="/home/detailJasa/<?= $j['slug']; ?>" class="text-decoration-none text-dark">
                         <img src="<?= base_url('assets/images/produk-jasa/' . $j['gambar']); ?>" class="card-img-top" alt="<?= $j['nama']; ?>" style="height: 200px; object-fit: cover;">
@@ -52,31 +58,39 @@
     </div>
 </div>
 
-<!-- JavaScript for filtering -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const categoryButtons = document.querySelectorAll('.category-btn');
         const jasaItems = document.querySelectorAll('.jasa-item');
+        const searchInput = document.getElementById('searchInput');
 
         categoryButtons.forEach(button => {
             button.addEventListener('click', function () {
                 const category = button.getAttribute('data-category');
-                
-                // Toggle active class for buttons
-                categoryButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-
-                // Show or hide jasa items based on category
-                jasaItems.forEach(item => {
-                    const itemCategory = item.getAttribute('data-category');
-                    if (category === 'semua' || category === itemCategory) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
+                filterJasa(category);
             });
         });
+
+        searchInput.addEventListener('input', function () {
+            const searchText = searchInput.value.trim().toLowerCase();
+            filterJasa(null, searchText);
+        });
+
+        function filterJasa(category, searchText) {
+            jasaItems.forEach(item => {
+                const itemCategory = item.getAttribute('data-category').toLowerCase();
+                const itemName = item.querySelector('.card-title').textContent.toLowerCase();
+                
+                const categoryMatch = category === null || category === 'semua' || category === itemCategory;
+                const searchMatch = searchText === '' || itemName.includes(searchText);
+
+                if (categoryMatch && searchMatch) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
     });
 </script>
 
