@@ -17,7 +17,7 @@
         }
     </style>
 
-    
+
 </head>
 
 <body>
@@ -76,6 +76,13 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
     <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            if (localStorage.getItem('accountDeleted') === 'true') {
+                alert('Akun Anda telah dihapus.');
+                localStorage.removeItem('accountDeleted');
+            }
+        });
+
         const togglePassword = document.querySelector('#togglePassword');
         const password = document.querySelector('#password');
         togglePassword.addEventListener('click', function() {

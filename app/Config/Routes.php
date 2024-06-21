@@ -33,7 +33,11 @@ $routes->get('/edit-profil', 'User\Profil::edit');
 $routes->post('/edit-profil/update/(:num)', 'User\Profil::update/$1');
 
 $routes->get('/alamat', 'User\Alamat::index');
-$routes->get('/pengaturan', 'User\Alamat::index');
+
+$routes->get('/pengaturan', 'User\Pengaturan::index');
+$routes->post('/hapusAkun', 'User\Pengaturan::hapusAkun');
+$routes->post('/pengaturan/ubahPassword', 'User\Pengaturan::ubahPassword');
+
 $routes->get('/pesanan-saya', 'User\::index');
 
 

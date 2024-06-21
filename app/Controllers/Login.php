@@ -30,14 +30,13 @@ class Login extends BaseController
         $data = $this->akunModel->getUserByUsername($username);
 
         if ($data) {
-            $pass = $data['password'];
-            // Tidak perlu menggunakan password_verify lagi karena tidak menggunakan hashing pada password
-            // Hanya perlu membandingkan password yang dimasukkan dengan password yang ada di database
-            if ($password === $pass) {
+            // Tidak perlu menggunakan password_verify karena tidak di-hash saat register
+            if ($password === $data['password']) {
                 $ses_data = [
                     'user_id'       => $data['id'],
                     'user_name'     => $data['nama'],
                     'user_username' => $data['username'],
+                    'user_password' => $data['password'], // Simpan password dalam bentuk plain text untuk contoh ini
                     'role'          => $data['role'],
                     'logged_in'     => TRUE
                 ];
