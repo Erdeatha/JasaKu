@@ -8,7 +8,7 @@ class PesananModel extends Model
 {
     protected $table = 'pesanan';
     protected $primaryKey = 'id';
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $allowedFields = [
         'id_pemesan',
         'id_jasa',
@@ -21,4 +21,7 @@ class PesananModel extends Model
         'total_pembayaran',
         'status'
     ];
+
+    protected $createdField  = 'created_at';
+    protected $updatedField  = 'updated_at';
 }

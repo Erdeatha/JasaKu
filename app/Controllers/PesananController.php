@@ -8,9 +8,60 @@ use App\Models\PaketJasaModel;
 
 class PesananController extends BaseController
 {
+  public function pesananSaya()
+  {
+    $pesananModel = new PesananModel();
+    $paketJasaModel = new PaketJasaModel();
+    $idUser = session()->get('user_id');
 
-  public function konfirmasi(){
-    return view('user/pesananSaya/menungguKonfirmasi');
+    $konfirmasi = $pesananModel
+      ->select('pesanan.*, jasa.nama as nama_jasa, paket_jasa.nama as nama_paket, paket_jasa.harga')
+      ->join('jasa', 'pesanan.id_jasa = jasa.id')
+      ->join('paket_jasa', 'pesanan.id_paket = paket_jasa.id')
+      ->where('pesanan.id_pemesan', $idUser)
+      ->where('pesanan.status', 'menunggu_konfirmasi')
+      ->findAll();
+
+    $mendatang = $pesananModel
+      ->select('pesanan.*, jasa.nama as nama_jasa, paket_jasa.nama as nama_paket, paket_jasa.harga, paket_jasa.rincian')
+      ->join('jasa', 'pesanan.id_jasa = jasa.id')
+      ->join('paket_jasa', 'pesanan.id_paket = paket_jasa.id')
+      ->where('pesanan.id_pemesan', $idUser)
+      ->where('pesanan.status', 'mendatang')
+      ->findAll();
+
+    $berlangsung = $pesananModel
+      ->select('pesanan.*, jasa.nama as nama_jasa, paket_jasa.nama as nama_paket, paket_jasa.harga, paket_jasa.rincian')
+      ->join('jasa', 'pesanan.id_jasa = jasa.id')
+      ->join('paket_jasa', 'pesanan.id_paket = paket_jasa.id')
+      ->where('pesanan.id_pemesan', $idUser)
+      ->where('pesanan.status', 'berlangsung')
+      ->findAll();
+
+    $selesai = $pesananModel
+      ->select('pesanan.*, jasa.nama as nama_jasa, paket_jasa.nama as nama_paket, paket_jasa.harga, paket_jasa.rincian')
+      ->join('jasa', 'pesanan.id_jasa = jasa.id')
+      ->join('paket_jasa', 'pesanan.id_paket = paket_jasa.id')
+      ->where('pesanan.id_pemesan', $idUser)
+      ->where('pesanan.status', 'selesai')
+      ->findAll();
+
+    $dibatalkan = $pesananModel
+      ->select('pesanan.*, jasa.nama as nama_jasa, paket_jasa.nama as nama_paket, paket_jasa.harga, paket_jasa.rincian')
+      ->join('jasa', 'pesanan.id_jasa = jasa.id')
+      ->join('paket_jasa', 'pesanan.id_paket = paket_jasa.id')
+      ->where('pesanan.id_pemesan', $idUser)
+      ->where('pesanan.status', 'dibatalkan')
+      ->findAll();
+
+    $data = [
+      'konfirmasi' => $konfirmasi,
+      'mendatang' => $mendatang,
+      'berlangsung' => $berlangsung,
+      'selesai' => $selesai,
+      'dibatalkan' => $dibatalkan,
+    ];
+    return view('user/pesananSaya', $data);
   }
 
   public function create()
@@ -59,7 +110,6 @@ class PesananController extends BaseController
     return redirect()->to(base_url('/pesanan/success'))->with('pesanan', $data);
   }
 
-
   public function success()
   {
     // Mengambil data pesanan dari flash data
@@ -67,7 +117,6 @@ class PesananController extends BaseController
 
     return view('user/pesanan_success', ['pesanan' => $pesanan]); // Kirim variabel $pesanan ke view
   }
-
 
   public function cancel($id)
   {
@@ -78,8 +127,16 @@ class PesananController extends BaseController
       return redirect()->to(base_url('/'));
     }
 
-    $pesananModel->update($id, ['status' => 'dibatalkan']);
+    // Get the cancellation reason from the POST data
+    $cancellationReason = $this->request->getPost('cancellationReason');
+
+    // Update the pesanan status and save the cancellation reason
+    $pesananModel->update($id, [
+      'status' => 'dibatalkan',
+      'alasan_pembatalan' => $cancellationReason // Ensure you have a corresponding field in your database
+    ]);
 
     return redirect()->to(base_url('/pesanan/success'));
   }
+
 }

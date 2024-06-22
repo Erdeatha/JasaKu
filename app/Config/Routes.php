@@ -22,8 +22,6 @@ $routes->get('/pesanan/create', 'PesananController::create');
 $routes->post('/pesanan/store', 'PesananController::store');
 $routes->get('/pesanan/success', 'PesananController::success');
 
-$routes->get('/pesanan/cancel/(:num)', 'PesananController::cancel/$1');
-
 $routes->get('/notifikasi', 'User\Notifikasi::index');
 $routes->get('/ditandai', 'User\Ditandai::index');
 $routes->get('/obrolan', 'User\Obrolan::index');
@@ -38,6 +36,7 @@ $routes->get('/pengaturan', 'User\Pengaturan::index');
 $routes->post('/hapusAkun', 'User\Pengaturan::hapusAkun');
 $routes->post('/pengaturan/ubahPassword', 'User\Pengaturan::ubahPassword');
 
-$routes->get('/pesananSaya-konfirmasi', 'PesananController::konfirmasi');
+$routes->get('/pesananSaya-konfirmasi', 'PesananController::pesananSaya');
+$routes->post('/pesanan/cancel/(:num)', 'PesananController::cancel/$1');
 
 

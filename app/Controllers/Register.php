@@ -47,10 +47,10 @@ class Register extends BaseController
 			'nama' => $this->request->getVar('nama'),
 			'username' => $this->request->getVar('username'),
 			'password' => $this->request->getVar('password'), // Tidak menggunakan password_hash
-      		'nomor_telepon' => $this->request->getVar('nomor_telepon'),
-      		'jenis_kelamin' => $this->request->getVar('jenis_kelamin'),
-      		'tanggal_lahir' => $this->request->getVar('tanggal_lahir'),
-      		'role' => 'user'
+			'nomor_telepon' => $this->request->getVar('nomor_telepon'),
+			'jenis_kelamin' => $this->request->getVar('jenis_kelamin'),
+			'tanggal_lahir' => $this->request->getVar('tanggal_lahir'),
+			'role' => 'user'
 		]);
 
 		return redirect()->to(base_url('/login'));
