@@ -8,6 +8,11 @@ use App\Models\PaketJasaModel;
 
 class PesananController extends BaseController
 {
+
+  public function konfirmasi(){
+    return view('user/pesananSaya/menungguKonfirmasi');
+  }
+
   public function create()
   {
     $jasaModel = new JasaModel();

@@ -8,11 +8,23 @@
 
 <body>
     <?= $this->include('layout/navbar'); ?>
-    <a href="/profil">Profil</a>
-    <a href="/alamat">Daftar Alamat</a>
-    <a href="/pengaturan">Pengaturan</a>
-    <a href="/pesanan">Pesanan Saya</a>
-    <a href="/jasa">Jasa Saya</a>
+    <ul class="nav nav-pills nav-fill">
+        <li class="nav-item">
+            <a class="nav-link <?= (service('uri')->getSegment(1) == 'profil') ? 'active' : ''; ?>" aria-current="page" href="/profil">Profil</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?= (service('uri')->getSegment(1) == 'alamat') ? 'active' : ''; ?>" href="/alamat">Daftar Alamat</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?= (service('uri')->getSegment(1) == 'pengaturan') ? 'active' : ''; ?>" href="/pengaturan">Pengaturan</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?= (service('uri')->getSegment(1) == 'pesananSaya-konfirmasi') ? 'active' : ''; ?>" href="/pesananSaya-konfirmasi">Pesanan Saya</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?= (service('uri')->getSegment(1) == 'jasa') ? 'active' : ''; ?>" href="/jasa">Jasa Saya</a>
+        </li>
+    </ul>
     <?= $this->renderSection('content'); ?>
     <?= $this->include('layout/footer'); ?>
 </body>

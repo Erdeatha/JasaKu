@@ -38,6 +38,6 @@ $routes->get('/pengaturan', 'User\Pengaturan::index');
 $routes->post('/hapusAkun', 'User\Pengaturan::hapusAkun');
 $routes->post('/pengaturan/ubahPassword', 'User\Pengaturan::ubahPassword');
 
-$routes->get('/pesanan-saya', 'User\::index');
+$routes->get('/pesananSaya-konfirmasi', 'PesananController::konfirmasi');
 
 
