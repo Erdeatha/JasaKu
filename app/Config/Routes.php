@@ -40,3 +40,11 @@ $routes->get('/pesananSaya-konfirmasi', 'PesananController::pesananSaya');
 $routes->post('/pesanan/cancel/(:num)', 'PesananController::cancel/$1');
 
 
+$routes->group('profil', ['namespace' => 'App\Controllers\User'], function ($routes) {
+  // Route untuk halaman profil dan update profil
+  $routes->get('/', 'Profil::index');
+  $routes->post('update/(:num)', 'Profil::update/$1');
+
+  // Route untuk upload dan hapus foto profil
+  $routes->post('uploadFoto', 'Profil::uploadFoto'); // Pastikan route ini telah didaftarkan dengan benar
+});
