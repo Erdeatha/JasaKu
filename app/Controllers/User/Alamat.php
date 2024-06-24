@@ -7,13 +7,6 @@ use App\Controllers\BaseController;
 
 class Alamat extends BaseController
 {
-    // protected $akunModel;
-
-    // public function __construct()
-    // {
-    //     $this->akunModel = new AkunModel();
-    // }
-
     public function index()
     {
         $session = session();

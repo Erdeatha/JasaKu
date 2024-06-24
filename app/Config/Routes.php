@@ -36,7 +36,7 @@ $routes->get('/pengaturan', 'User\Pengaturan::index');
 $routes->post('/hapusAkun', 'User\Pengaturan::hapusAkun');
 $routes->post('/pengaturan/ubahPassword', 'User\Pengaturan::ubahPassword');
 
-$routes->get('/pesananSaya-konfirmasi', 'PesananController::pesananSaya');
+$routes->get('/pesananSaya', 'PesananController::pesananSaya');
 $routes->post('/pesanan/cancel/(:num)', 'PesananController::cancel/$1');
 
-
+$routes->get('/jasaSaya', 'Jasa\Jasa::index');

@@ -19,10 +19,10 @@
             <a class="nav-link <?= (service('uri')->getSegment(1) == 'pengaturan') ? 'active' : ''; ?>" href="/pengaturan">Pengaturan</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?= (service('uri')->getSegment(1) == 'pesananSaya-konfirmasi') ? 'active' : ''; ?>" href="/pesananSaya-konfirmasi">Pesanan Saya</a>
+            <a class="nav-link <?= (service('uri')->getSegment(1) == 'pesananSaya') ? 'active' : ''; ?>" href="/pesananSaya">Pesanan Saya</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?= (service('uri')->getSegment(1) == 'jasa') ? 'active' : ''; ?>" href="/jasa">Jasa Saya</a>
+            <a class="nav-link <?= (service('uri')->getSegment(1) == 'jasaSaya') ? 'active' : ''; ?>" href="/jasaSaya">Jasa Saya</a>
         </li>
     </ul>
     <?= $this->renderSection('content'); ?>
