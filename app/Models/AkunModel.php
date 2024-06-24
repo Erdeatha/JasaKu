@@ -8,9 +8,8 @@ class AkunModel extends Model
 {
     protected $table = 'akun';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['nama','email', 'username', 'password', 'nomor_telepon', 'jenis_kelamin', 'tanggal_lahir', 'role'];
+    protected $allowedFields = ['nama', 'email', 'username', 'password', 'nomor_telepon', 'jenis_kelamin', 'tanggal_lahir', 'role', 'foto_profil'];
 
-    // Automatically handle created_at and updated_at fields
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
@@ -25,5 +24,26 @@ class AkunModel extends Model
         return $this->where(['id' => $id])->first();
     }
 
-    
+    public function updateProfilePicture($id, $filename)
+    {
+        $this->where('id', $id)->set('foto_profil', $filename)->update();
+    }
+
+    public function deleteProfilePicture($id)
+    {
+        // Ambil nama file foto profil yang akan dihapus
+        $user = $this->find($id);
+        $filename = $user['foto_profil'];
+
+        // Hapus file dari direktori
+        if ($filename != null) {
+            $path = ROOTPATH . 'public/assets/images/profile/' . $filename;
+            if (file_exists($path)) {
+                unlink($path); // Hapus file dari direktori
+            }
+        }
+
+        // Update field foto_profil menjadi null di database
+        $this->where('id', $id)->set('foto_profil', null)->update();
+    }
 }

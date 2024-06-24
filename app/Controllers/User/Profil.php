@@ -30,11 +30,8 @@ class Profil extends BaseController
     public function update($id)
     {
         $oldUsername = $this->akunModel->getUserById($id);
-        if($oldUsername['username'] == $this->request->getVar('username')){
-            $rule = 'required';
-        }else{
-            $rule ='required|is_unique[akun.username]';
-        }
+        $rule = $oldUsername['username'] === $this->request->getVar('username') ? 'required' : 'required|is_unique[akun.username]';
+
         $rules = [
             'username' => [
                 'rules' => $rule,
@@ -44,11 +41,10 @@ class Profil extends BaseController
                 ]
             ],
             'email' => [
-                'rules' => 'required',
+                'rules' => 'required|valid_email',
                 'errors' => [
                     'required' => 'Email tidak boleh kosong',
-                    'valid_email' => 'Email harus berupa email yang valid',
-                    'is_unique' => 'Email sudah terdaftar'
+                    'valid_email' => 'Email harus berupa email yang valid'
                 ]
             ],
             'nama' => [
@@ -74,13 +70,24 @@ class Profil extends BaseController
                 'errors' => [
                     'required' => 'Tanggal Lahir tidak boleh kosong'
                 ]
-            ]
+            ],
         ];
 
+        // Validasi form
         if (!$this->validate($rules)) {
             return redirect()->to('/profil')->withInput()->with('validation', $this->validator);
         }
 
+        // Handle file upload for profile picture
+        $file = $this->request->getFile('foto_profil');
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $newName = $file->getRandomName();
+            $file->move(ROOTPATH . 'public/assets/images/profile', $newName);
+        } else {
+            $newName = $this->akunModel->getUserById($id)['foto_profil'];
+        }
+
+        // Save profile data to database
         $this->akunModel->save([
             'id' => $id,
             'nama' => $this->request->getVar('nama'),
@@ -88,8 +95,38 @@ class Profil extends BaseController
             'username' => $this->request->getVar('username'),
             'nomor_telepon' => $this->request->getVar('nomor_telepon'),
             'jenis_kelamin' => $this->request->getVar('jenis_kelamin'),
-            'tanggal_lahir' => $this->request->getVar('tanggal_lahir')
+            'tanggal_lahir' => $this->request->getVar('tanggal_lahir'),
+            'foto_profil' => $newName // Update nama file foto profil
         ]);
+
+        return redirect()->to('/profil');
+    }
+
+    public function uploadFoto()
+    {
+        $id = session()->get('user_id');
+
+        // Handle file upload
+        $file = $this->request->getFile('foto_profil');
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $newName = $file->getRandomName();
+            $file->move(ROOTPATH . 'public/assets/images/profile', $newName);
+
+            // Simpan nama file baru ke dalam database
+            $this->akunModel->updateProfilePicture($id, $newName);
+        }
+
+        // Handle delete foto profil
+        if ($this->request->getPost('delete_foto_profil')) {
+            $user = $this->akunModel->getUserById($id);
+            if ($user['foto_profil']) {
+                // Hapus file foto profil dari folder
+                unlink(ROOTPATH . 'public/assets/images/profile/' . $user['foto_profil']);
+            }
+            // Hapus nama file foto profil dari database
+            $this->akunModel->updateProfilePicture($id, null);
+            return redirect()->to('/profil');
+        }
 
         return redirect()->to('/profil');
     }

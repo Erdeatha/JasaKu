@@ -22,21 +22,18 @@ class Login extends BaseController
     {
         $session = session();
 
-        //mengambil data dari form login
         $username = $this->request->getVar('username');
         $password = $this->request->getVar('password');
 
-        //mengambil data dari database
         $data = $this->akunModel->getUserByUsername($username);
 
         if ($data) {
-            // Tidak perlu menggunakan password_verify karena tidak di-hash saat register
             if ($password === $data['password']) {
                 $ses_data = [
                     'user_id'       => $data['id'],
                     'user_name'     => $data['nama'],
                     'user_username' => $data['username'],
-                    'user_password' => $data['password'], // Simpan password dalam bentuk plain text untuk contoh ini
+                    'user_password' => $data['password'],
                     'role'          => $data['role'],
                     'logged_in'     => TRUE
                 ];
@@ -52,13 +49,5 @@ class Login extends BaseController
             $session->setFlashdata('msg', 'Username Tidak Ditemukan');
             return redirect()->to(base_url('/login'));
         }
-    }
-
-    //untuk logout
-    public function logout()
-    {
-        $session = session();
-        $session->destroy();
-        return redirect()->to(base_url('/'));
     }
 }
