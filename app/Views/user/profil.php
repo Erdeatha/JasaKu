@@ -7,28 +7,15 @@
             <div class="card mb-3">
                 <div class="card-body text-center">
                     <!-- Tampilkan foto profil dengan base_url jika sudah ada -->
-                    <?php if (!empty($data['foto_profil'])): ?>
-                        <img id="previewFoto" src="<?= base_url('assets/images/profile/' . $data['foto_profil']); ?>" class="img-fluid rounded-circle mb-3" alt="Foto Profil">
-                    <?php else: ?>
-                        <!-- Jika belum ada foto profil, tampilkan ikon profil default -->
-                        <i class="bi bi-person-circle" style="font-size: 5rem;"></i>
-                    <?php endif; ?>
-                    <div class="d-flex justify-content-center">
-                        <!-- Form untuk mengunggah foto profil -->
-                        <form id="uploadFotoForm" action="/profil/uploadFoto" method="post" enctype="multipart/form-data">
-                            <?= csrf_field(); ?>
-                            <input type="file" name="foto_profil" id="uploadFotoInput" class="d-none" onchange="previewImage(this)" disabled>
-                            <label for="uploadFotoInput" class="btn btn-sm btn-primary me-2" id="ubahFotoBtn" disabled>Ubah Foto</label>
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus foto profil?');" name="delete_foto_profil" value="1" id="hapusFotoBtn" disabled>Hapus Foto</button>
-                        </form>
-                    </div>
+                    <img id="previewFoto" src="<?= base_url('assets/images/profile/' . $data['foto_profil']); ?>" class="img-fluid rounded-circle mb-3" alt="Foto Profil">
                 </div>
             </div>
         </div>
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <!-- Form untuk informasi profil -->
+                    <h5 class="card-title mb-4">Profil Pengguna</h5>
+                    <!-- Form untuk informasi profil dan foto profil -->
                     <form id="profilForm" action="/profil/update/<?= $data['id']; ?>" method="post" enctype="multipart/form-data">
                         <?= csrf_field(); ?>
                         <div class="mb-3">
@@ -61,7 +48,11 @@
                             <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
                             <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control" value="<?= $data['tanggal_lahir']; ?>" disabled>
                         </div>
-                        
+                        <div class="mb-3">
+                            <label for="foto_profil" class="form-label">Ubah Foto Profil</label>
+                            <input type="file" id="foto_profil" name="foto_profil" class="form-control" onchange="previewImage(this)" disabled>
+                        </div>
+
                         <!-- Field tersembunyi untuk menyimpan nama file foto profil yang sudah ada -->
                         <input type="hidden" name="foto_profil_lama" value="<?= $data['foto_profil']; ?>">
 
@@ -89,10 +80,7 @@
         for (let i = 0; i < formElements.length; i++) {
             formElements[i].disabled = false;
         }
-        document.getElementById('uploadFotoInput').disabled = false;
-        document.getElementById('ubahFotoBtn').disabled = false;
-        document.getElementById('hapusFotoBtn').disabled = false;
-        document.getElementById('simpanBtn').disabled = false; // Aktifkan tombol Simpan Perubahan
+        document.getElementById('simpanBtn').disabled = false;
     });
 
     // Fungsi untuk menampilkan preview foto sebelum diunggah

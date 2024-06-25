@@ -83,8 +83,14 @@ class Profil extends BaseController
         if ($file && $file->isValid() && !$file->hasMoved()) {
             $newName = $file->getRandomName();
             $file->move(ROOTPATH . 'public/assets/images/profile', $newName);
+
+            // Hapus foto lama jika ada
+            $oldPhoto = $this->request->getVar('foto_profil_lama');
+            if ($oldPhoto && file_exists(ROOTPATH . 'public/assets/images/profile/' . $oldPhoto)) {
+                unlink(ROOTPATH . 'public/assets/images/profile/' . $oldPhoto);
+            }
         } else {
-            $newName = $this->akunModel->getUserById($id)['foto_profil'];
+            $newName = $this->request->getVar('foto_profil_lama');
         }
 
         // Save profile data to database
@@ -98,35 +104,6 @@ class Profil extends BaseController
             'tanggal_lahir' => $this->request->getVar('tanggal_lahir'),
             'foto_profil' => $newName // Update nama file foto profil
         ]);
-
-        return redirect()->to('/profil');
-    }
-
-    public function uploadFoto()
-    {
-        $id = session()->get('user_id');
-
-        // Handle file upload
-        $file = $this->request->getFile('foto_profil');
-        if ($file && $file->isValid() && !$file->hasMoved()) {
-            $newName = $file->getRandomName();
-            $file->move(ROOTPATH . 'public/assets/images/profile', $newName);
-
-            // Simpan nama file baru ke dalam database
-            $this->akunModel->updateProfilePicture($id, $newName);
-        }
-
-        // Handle delete foto profil
-        if ($this->request->getPost('delete_foto_profil')) {
-            $user = $this->akunModel->getUserById($id);
-            if ($user['foto_profil']) {
-                // Hapus file foto profil dari folder
-                unlink(ROOTPATH . 'public/assets/images/profile/' . $user['foto_profil']);
-            }
-            // Hapus nama file foto profil dari database
-            $this->akunModel->updateProfilePicture($id, null);
-            return redirect()->to('/profil');
-        }
 
         return redirect()->to('/profil');
     }
