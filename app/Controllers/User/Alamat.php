@@ -9,6 +9,9 @@ class Alamat extends BaseController
 {
     public function index()
     {
+        if (!session()->get('logged_in')) {
+            return redirect()->to(base_url('/login'));
+        }
         $session = session();
         $id_akun = $session->get('user_id');
 

@@ -65,8 +65,9 @@
                 <div class="card-footer">
                     <div class="d-flex justify-content-between align-items-center">
                         <a href="#" id="ubahProfilBtn" class="btn btn-secondary">Ubah Profil</a>
-                        <a href="/logout" class="btn btn-danger">Logout</a>
+                        <a href="<?= base_url('/logout'); ?>" class="btn btn-danger">Logout</a>
                     </div>
+
                 </div>
             </div>
         </div>

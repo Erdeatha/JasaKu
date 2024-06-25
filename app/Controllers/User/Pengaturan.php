@@ -52,6 +52,10 @@ class Pengaturan extends BaseController
     // Pengaturan Controller (Pengaturan.php)
     public function ubahPassword()
     {
+        if (!session()->get('logged_in')) {
+            return redirect()->to(base_url('/login'));
+        }
+
         $session = session();
         $userId = $session->get('user_id');
         $currentPassword = $this->request->getVar('currentPassword');

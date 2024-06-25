@@ -19,14 +19,17 @@ class Ditandai extends BaseController
 
     public function index()
     {
+        if (!session()->get('logged_in')) {
+            return redirect()->to(base_url('/login'));
+        }
 
         $session = session();
         $id_akun = $session->get('user_id');
         $ditandaiList = $this->ditandaiModel->getDitandai($id_akun);
-        $list =[];
-        foreach($ditandaiList as $ditandai){
-            $jasa = $this->jasaModel-> getJasaById($ditandai['id_jasa']);
-            if($jasa){
+        $list = [];
+        foreach ($ditandaiList as $ditandai) {
+            $jasa = $this->jasaModel->getJasaById($ditandai['id_jasa']);
+            if ($jasa) {
                 $list[] = $jasa;
             }
         }
