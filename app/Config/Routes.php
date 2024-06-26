@@ -40,6 +40,8 @@ $routes->get('/pesananSaya', 'PesananController::pesananSaya');
 $routes->post('/pesanan/cancel/(:num)', 'PesananController::cancel/$1');
 
 $routes->get('/jasaSaya', 'Jasa\Jasa::index');
+$routes->get('jasa', 'Jasa\Jasa::index');
+
 
 $routes->get('/profil', 'User\Profil::index');
 $routes->post('/profil/uploadFoto', 'User\Profil::uploadFoto');
@@ -47,5 +49,7 @@ $routes->post('/profil/update/(:num)', 'User\Profil::update/$1');
 
 $routes->get('/jasa/tambah', 'Jasa\Jasa::tambah');
 $routes->post('/jasa/tambah', 'Jasa\Jasa::tambah');
+
+$routes->delete('/jasa/hapus/(:num)', 'Jasa\Jasa::hapus/$1');
 
 $routes->get('/logout', 'Login::logout');

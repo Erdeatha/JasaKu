@@ -93,7 +93,7 @@ class Profil extends BaseController
                 unlink(ROOTPATH . 'public/assets/images/profile/' . $oldPhoto);
             }
         } else {
-            $newName = $this->request->getVar('foto_profil_lama');
+            $newName = $this->request->getVar('foto_profil_lama') ?: null;
         }
 
         // Save profile data to database

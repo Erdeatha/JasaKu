@@ -7,7 +7,7 @@ use App\Models\JasaModel;
 
 class Jasa extends BaseController
 {
-    protected $jasaModel;
+    protected $jasaModel, $db;
 
     public function __construct()
     {
@@ -17,10 +17,16 @@ class Jasa extends BaseController
     public function index()
     {
         $session = session();
-        $id_akun = $session->get('user_id');
+        $userId = $session->get('user_id');
+
+        if (!$userId) {
+            return redirect()->to('/login');
+        }
+
+        $jasa = $this->jasaModel->getAllJasaWithPriceByUserId($userId);
 
         $data = [
-            'title' => 'Layanan Jasa Saya | Jasaku',
+            'jasa' => $jasa
         ];
 
         return view('jasa/main', $data);
@@ -29,25 +35,44 @@ class Jasa extends BaseController
     public function tambah()
     {
         if ($this->request->getMethod() === 'post') {
-            // Validasi dan simpan data
+            // Validasi dan simpan data jasa
             $file = $this->request->getFile('gambar');
             $fileName = $file->getRandomName();
             $file->move('uploads/', $fileName);
 
-            $this->jasaModel->save([
+            $data = [
+                'id_akun' => session()->get('user_id'),
                 'nama' => $this->request->getPost('nama'),
                 'kategori' => $this->request->getPost('kategori'),
-                'slug' => $this->request->getPost('slug'),
                 'gambar' => $fileName,
+                'alamat' => $this->request->getPost('alamat'),
+                'deskripsi' => $this->request->getPost('deskripsi'),
                 'status' => $this->request->getPost('status'),
-                'rating' => $this->request->getPost('rating'),
-                'total_pesanan' => $this->request->getPost('total_pesanan'),
-                'difavoritkan' => $this->request->getPost('difavoritkan')
-            ]);
+                'paket_jasa' => $this->request->getPost('paket_jasa') // Ambil data paket jasa dari form
+            ];
+
+            $this->jasaModel->saveJasa($data);
 
             return redirect()->to('/jasa');
         }
 
         return view('jasa/tambah');
+    }
+
+
+
+    public function hapus($id)
+    {
+        // Inisialisasi database
+        $db = \Config\Database::connect();
+
+        // Hapus terlebih dahulu data terkait dari tabel ditandai
+        $db->table('ditandai')->where('id_jasa', $id)->delete(  );
+
+        // Hapus data dari tabel jasa
+        $this->jasaModel->delete($id);
+
+        session()->setFlashdata('success', 'Jasa berhasil dihapus.');
+        return redirect()->to(base_url('/jasa'));
     }
 }
