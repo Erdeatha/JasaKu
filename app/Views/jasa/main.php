@@ -2,10 +2,10 @@
 
 <?= $this->section('content'); ?>
 
-<div class="container-fluid">
+<div class="container-fluid" style="min-height: 100vh">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Daftar Jasa</h2>
-        <a href="#" class="btn btn-outline-primary">+ Tambah Jasa</a>
+        <a href="/jasa/tambah" class="btn btn-outline-primary">+ Tambah Jasa</a>
     </div>
     <div class="card mb-3 w-100">
         <div class="row g-0">

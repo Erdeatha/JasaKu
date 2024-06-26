@@ -2,7 +2,7 @@
 
 <?= $this->section('content'); ?>
 
-<div class="row row-cols-1 row-cols-md-3 g-4">
+<div class="row row-cols-1 row-cols-md-3 g-4" style="min-height: 100vh">
     <?php if (!empty($ditandai)) : ?>
         <?php foreach ($ditandai as $jasa) : ?>
             <div class="col">

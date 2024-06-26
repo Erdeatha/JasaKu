@@ -1,7 +1,7 @@
 <?= $this->extend('layout/template_profil.php'); ?>
 
 <?= $this->section('content'); ?>
-<div class="d-flex align-items-start">
+<div class="d-flex align-items-start" style="min-height: 100vh">
     <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="width: 300px;">
         <h4 class="mb-3" style="text-align: center">Status Pesanan</h4>
         <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Menunggu Konfirmasi</button>

@@ -45,4 +45,7 @@ $routes->get('/profil', 'User\Profil::index');
 $routes->post('/profil/uploadFoto', 'User\Profil::uploadFoto');
 $routes->post('/profil/update/(:num)', 'User\Profil::update/$1');
 
+$routes->get('/jasa/tambah', 'Jasa\Jasa::tambah');
+$routes->post('/jasa/tambah', 'Jasa\Jasa::tambah');
+
 $routes->get('/logout', 'Login::logout');
